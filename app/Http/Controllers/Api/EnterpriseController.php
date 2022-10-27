@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Models\Enterprise;
-use App\Http\Requests\StoreEnterpriseRequest;
-use App\Http\Requests\UpdateEnterpriseRequest;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\EnterpriseResource;
+use App\Models\Enterprise;
+use Illuminate\Http\Request;
 
 class EnterpriseController extends Controller
 {
@@ -16,7 +16,7 @@ class EnterpriseController extends Controller
      */
     public function index()
     {
-        return view('enterprises.index');
+        return EnterpriseResource::collection(Enterprise::paginate(6));
     }
 
     /**
@@ -32,10 +32,10 @@ class EnterpriseController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreEnterpriseRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreEnterpriseRequest $request)
+    public function store(Request $request)
     {
         //
     }
@@ -43,7 +43,7 @@ class EnterpriseController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Enterprise  $enterprise
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(Enterprise $enterprise)
@@ -54,10 +54,10 @@ class EnterpriseController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Enterprise  $enterprise
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Enterprise $enterprise)
+    public function edit($id)
     {
         //
     }
@@ -65,11 +65,11 @@ class EnterpriseController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateEnterpriseRequest  $request
-     * @param  \App\Models\Enterprise  $enterprise
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateEnterpriseRequest $request, Enterprise $enterprise)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -77,10 +77,10 @@ class EnterpriseController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Enterprise  $enterprise
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Enterprise $enterprise)
+    public function destroy($id)
     {
         //
     }

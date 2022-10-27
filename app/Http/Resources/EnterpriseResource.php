@@ -14,11 +14,11 @@ class EnterpriseResource extends JsonResource
      */
     public function toArray($request)
     {
-        
+
         return [
             "id" => $this->id,
             "company" => $this->name,
-            "description" => $this->description,
+            "description" => mb_strimwidth($this->description, 0, 100, '...'),
             "phone" => $this->contact,
             "email" => $this->email
         ];
