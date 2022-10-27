@@ -14,11 +14,9 @@
                 <div class="col-sm-12 col-md-4 col-lg-4">
                     <div class="form-group">
                         <div class="form-floating mb-3">
-                            <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+                            <select class="form-select" id="floatingSelect" aria-label="Selecione o estado desejado" @change="changeState($event)">
                                 <option selected>Todos</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                                <option v-for="state in states" :value="state.id">{{ state.name }}</option>
                             </select>
                             <label for="floatingSelect">Estado</label>
                         </div>
@@ -27,11 +25,9 @@
                 <div class="col-sm-12 col-md-4 col-lg-4">
                     <div class="form-group">
                         <div class="form-floating mb-3">
-                            <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+                            <select class="form-select" id="floatingSelect" aria-label="Selecione a cidade desejada">
                                 <option selected>Todos</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                                <option v-for="city in cities" :value="city.id">{{ city.name }}</option>
                             </select>
                             <label for="floatingSelect">Cidade</label>
                         </div>
@@ -66,6 +62,9 @@ export default {
     data() {
         return {
             companies: [],
+            states: [],
+            cities: [],
+            state: 0,
             companyName: "",
             page: 1,
             last_page: null
@@ -102,13 +101,37 @@ export default {
                 })
                 .catch(error => console.log(error));
         },
+        getStates() {
+            axios
+                .get("/api/states")
+                .then(response => {
+                    console.log(response.data.data);
+                    this.states = response.data.data
+                })
+                .catch(error => console.log(error));
+        },
+        getCities() {
+            axios
+                .get("/api/cities/" + this.state)
+                .then(response => {
+                    console.log(response.data.data);
+                    this.cities = response.data.data
+                })
+                .catch(error => console.log(error));
+        },
         changePage(page) {
             this.page = this.page + page;
             this.getCompanies();
+        },
+        changeState(state) {
+            this.state = state.target.value;
+            this.getCities();
         }
     },
     mounted() {
         this.getCompanies();
+        this.getStates();
+        this.getCities();
     }
 }
 </script>

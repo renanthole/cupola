@@ -19,3 +19,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::resource('enterprises', App\Http\Controllers\Api\EnterpriseController::class);
+Route::resource('states', App\Http\Controllers\Api\StateController::class);
+Route::get('cities/{state}', [App\Http\Controllers\Api\CityController::class, 'index']);

@@ -5370,10 +5370,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 
 
@@ -5386,6 +5382,9 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       companies: [],
+      states: [],
+      cities: [],
+      state: 0,
       companyName: "",
       page: 1,
       last_page: null
@@ -5418,13 +5417,37 @@ __webpack_require__.r(__webpack_exports__);
         return console.log(error);
       });
     },
+    getStates: function getStates() {
+      var _this2 = this;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/states").then(function (response) {
+        console.log(response.data.data);
+        _this2.states = response.data.data;
+      })["catch"](function (error) {
+        return console.log(error);
+      });
+    },
+    getCities: function getCities() {
+      var _this3 = this;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/cities/" + this.state).then(function (response) {
+        console.log(response.data.data);
+        _this3.cities = response.data.data;
+      })["catch"](function (error) {
+        return console.log(error);
+      });
+    },
     changePage: function changePage(page) {
       this.page = this.page + page;
       this.getCompanies();
+    },
+    changeState: function changeState(state) {
+      this.state = state.target.value;
+      this.getCities();
     }
   },
   mounted: function mounted() {
     this.getCompanies();
+    this.getStates();
+    this.getCities();
   }
 });
 
@@ -28506,7 +28529,12 @@ var render = function () {
                         staticClass: "form-select",
                         attrs: {
                           id: "floatingSelect",
-                          "aria-label": "Floating label select example",
+                          "aria-label": "Selecione o estado desejado",
+                        },
+                        on: {
+                          change: function ($event) {
+                            return _vm.changeState($event)
+                          },
                         },
                       },
                       [
@@ -28514,18 +28542,15 @@ var render = function () {
                           _vm._v("Todos"),
                         ]),
                         _vm._v(" "),
-                        _c("option", { attrs: { value: "1" } }, [
-                          _vm._v("One"),
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "2" } }, [
-                          _vm._v("Two"),
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "3" } }, [
-                          _vm._v("Three"),
-                        ]),
-                      ]
+                        _vm._l(_vm.states, function (state) {
+                          return _c(
+                            "option",
+                            { domProps: { value: state.id } },
+                            [_vm._v(_vm._s(state.name))]
+                          )
+                        }),
+                      ],
+                      2
                     ),
                     _vm._v(" "),
                     _c("label", { attrs: { for: "floatingSelect" } }, [
@@ -28544,7 +28569,7 @@ var render = function () {
                         staticClass: "form-select",
                         attrs: {
                           id: "floatingSelect",
-                          "aria-label": "Floating label select example",
+                          "aria-label": "Selecione a cidade desejada",
                         },
                       },
                       [
@@ -28552,18 +28577,15 @@ var render = function () {
                           _vm._v("Todos"),
                         ]),
                         _vm._v(" "),
-                        _c("option", { attrs: { value: "1" } }, [
-                          _vm._v("One"),
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "2" } }, [
-                          _vm._v("Two"),
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "3" } }, [
-                          _vm._v("Three"),
-                        ]),
-                      ]
+                        _vm._l(_vm.cities, function (city) {
+                          return _c(
+                            "option",
+                            { domProps: { value: city.id } },
+                            [_vm._v(_vm._s(city.name))]
+                          )
+                        }),
+                      ],
+                      2
                     ),
                     _vm._v(" "),
                     _c("label", { attrs: { for: "floatingSelect" } }, [
